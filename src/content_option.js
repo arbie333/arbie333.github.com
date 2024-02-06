@@ -84,8 +84,8 @@ const dataportfolio = [{
     },
     {
         img: "https://picsum.photos/400/?grayscale",
-        description: "The wisdom of life consists in the elimination of non-essentials.",
-        link: "#",
+        description: "Data Visualization",
+        link: "https://vizhub.com/arbie333",
     }
 ];
 
