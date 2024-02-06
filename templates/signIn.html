@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}Sign in Alak{% endblock %}
+
+{% block content %}
+    <div class="row justify-content-center mx-auto" style="margin-top: 10%; margin-bottom: 10%;">
+        <div class="col-lg-3 left-side mx-auto">
+            <svg id="svg" viewBox="0 -2.5 7 7" xmlns="http://www.w3.org/2000/svg" width="500px" height="300px">
+                <use href="#piece-white" x="2" y="0"/>
+                <use href="#piece-black" x="0" y="2"/>
+            </svg>
+        </div>
+        <div class="col-lg-3 right-side square rounded-9 right-square text-center">
+            <p class="text-warning text-uppercase font-weight-bold pt-5">Sign in To Alak</p>
+            <div class="form-group m-2">
+                <input type="name" class="form-control" id="inputName" aria-describedby="emailHelp" placeholder="Name">
+            </div>
+            <div class="form-group m-2">
+                <input type="password" class="form-control" id="inputPassword" placeholder="Password">
+            </div>
+            <div class="btn-group-vertical mx-auto text-center text-light rounded-9 p-5">
+                <a class="btn btn-warning m-1 mx-auto" style="font-size: 12px; font-weight: 300; border-radius: 25px; color: white;" href="{{ url_for('signIn')}}">SIGN IN</a>
+                <a class="text-warning m-1 mx-auto" style="font-size: 12px; font-weight: 300;" href="{{ url_for('signUp')}}">CREATE NEW ACCOUNT</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

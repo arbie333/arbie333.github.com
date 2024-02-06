@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}Ranking{% endblock %}
+
+{% block content %}
+    <svg id="svg" style="position: absolute; z-index: 1; top: 15%; left: 3%;" viewBox="-2.2 -2.2 7 7" xmlns="http://www.w3.org/2000/svg" width="200" height="120">
+        <use href="#piece-white" x="2" y="0"/>
+        <use href="#piece-black" x="0" y="2"/>
+    </svg>
+    <div style="position: relative; top: 10%" class="square rounded-9 big-square text-center">
+        <p class="text-warning text-uppercase font-weight-bold pt-3">RANKING</p>
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col"></th>
+                <th scope="col">Player</th>
+                <th scope="col">Time</th>
+                <th scope="col">Moves</th>
+                <th scope="col">Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">1</th>
+                <td>Mark</td>
+                <td>01:00</td>
+                <td>24</td>
+                <td>2023-10-02</td>
+              </tr>
+              <tr>
+                <th scope="row">2</th>
+                <td>Amy</td>
+                <td>00:50</td>
+                <td>20</td>
+                <td>2023-10-02</td>
+              </tr>
+              <tr>
+                <th scope="row">3</th>
+                <td>Bob</td>
+                <td>01:03</td>
+                <td>30</td>
+                <td>2023-10-02</td>
+              </tr>
+            </tbody>
+        </table>
+    </div>
+    
+{% endblock %}

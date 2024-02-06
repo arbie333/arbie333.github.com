@@ -1,0 +1,225 @@
+{% extends 'base.html' %}
+
+{% block title %}Alak{% endblock %}
+
+{% block head %}
+    <script type="text/javascript">
+        var old_move;
+        var next_move;
+        const board = [];
+        const sleepMS = 300;
+
+        const boardForAPI = [];
+        var gameStart = false;
+
+        window.addEventListener("load", function() {
+            init();
+        })
+        
+        function init() {
+            Snap("#piece0").drag(dragMove, dragStart, dragEnd);
+            Snap("#piece1").drag(dragMove, dragStart, dragEnd);
+            Snap("#piece2").drag(dragMove, dragStart, dragEnd);
+            Snap("#piece3").drag(dragMove, dragStart, dragEnd);
+            Snap("#piece4").drag(dragMove, dragStart, dragEnd);
+        }
+
+        function reset() {
+            console.log("reset");
+            board.length = 0;
+            boardForAPI.length = 0;
+            board.push("#piece0", "#piece1", "#piece2", "#piece3", "#piece4", "", "", "", "", "#piece5", "#piece6", "#piece7", "#piece8", "#piece9");
+            boardForAPI.push(1, 1, 1, 1, 1, 0, 0, 0, 0, -1, -1, -1, -1, -1);
+            for (let i = 0; i < 5; i++) {
+                Snap(board[i]).attr({cx: 2.5 + i * 5, cy: 2.5});
+                Snap(board[i + 9]).attr({cx: 47.5 + i * 5, cy: 2.5});
+            }
+
+            console.log("reset" + board);
+        }
+        
+        function dragStart(x, y, evt) {
+            if (!gameStart) {
+                gameStart = true;
+                reset();
+                totalSeconds = 0;
+            }
+
+            sX = parseFloat(this.attr("cx"));
+            sY = parseFloat(this.attr("cy"));
+        }
+        
+        function dragMove(dx, dy, x, y, evt) {
+            this.attr({cx: (sX + (dx/17)), cy: (sY + (dy/17))});
+        }
+        
+        function dragEnd(evt) {
+            old_move = Math.floor(sX/5);
+            next_move = Math.floor(parseFloat(this.attr("cx"))/5);
+
+            this.attr({cx: next_move * 5 + 2.5, cy: 2.5});
+
+            // check valid
+            if (board[next_move] != "") {
+                this.attr({cx: sX, cy: sY});
+                return;
+            }
+            console.log("the move is valid");
+
+            board[next_move] = board[old_move];
+            board[old_move] = "";
+
+            getAPIAndUpdateBoard();
+        }
+
+        function cleanCapture(captured) {
+            console.log("cleanCapture", captured);
+            for (let i = 0; i < captured.length; i++) {
+                Snap(board[captured[i]]).attr({cx: 100, cy: 100});
+                board[captured[i]] = "";
+            }
+        }
+
+        async function getAPIAndUpdateBoard() {
+            console.log("getAPI begin " + boardForAPI);
+            const response = await fetch("move/" + old_move + "/" + next_move + "/" + boardForAPI);
+            const move = await response.json();
+
+            console.log("black move: " + old_move + " " + next_move);
+
+            if (move.suicide == true) {
+                console.log('suicide');
+                Snap(board[next_move]).attr({cx: 100, cy: 100});
+                board[next_move] = "";
+            }
+
+            cleanCapture(move.blackCaptured);
+            await sleep(sleepMS);
+
+            console.log("move.win " + move.win);
+            if (move.win == 1) {
+                console.log("Black won!");
+                window.alert("Black won!");
+                reset();
+                return;
+            }
+
+            var pieceID = board[move.old_position];
+            var newX =  move.new_position * 5 + 2.5;
+            Snap(pieceID).attr({cx: newX, cy: 2.5});
+
+            console.log("white move: " + move.old_position + " " + move.new_position);
+
+            cleanCapture(move.whiteCaptured);
+            await sleep(sleepMS);
+
+            console.log(move.win);
+            if (move.win == -1) {
+                console.log("White won!");
+                window.alert("White won!");
+                reset();
+                return;
+            }
+
+            board[move.old_position] = "";
+            board[move.new_position] = pieceID;
+            updateBoardForAPI();
+
+            console.log("getAPI" + board);
+            console.log("getAPI" + boardForAPI);
+        }
+
+        // time counter
+        var minutesLabel = document.getElementById("minutes");
+        var secondsLabel = document.getElementById("seconds");
+        var totalSeconds;
+        setInterval(setTime, 1000);
+        minutesLabel.innerHTML = pad(0);
+        secondsLabel.innerHTML = pad(0);
+
+        function setTime() {
+            ++totalSeconds;
+            document.getElementById('seconds').innerHTML = pad(totalSeconds % 60);
+            document.getElementById('minutes').innerHTML = pad(parseInt(totalSeconds / 60));
+        }
+
+        function pad(val) {
+            var valString = val + "";
+            if (valString.length < 2) {
+                return "0" + valString;
+            } else {
+                return valString;
+            }
+        }
+
+        function updateBoardForAPI() {
+            console.log("updateBoardForAPI");
+            for (let i = 0; i < board.length; i++) {
+                if (board[i] == "") {
+                    boardForAPI[i] = 0;
+                } else if (parseInt(board[i].substring(board[i].length - 1)) < 5) {
+                    boardForAPI[i] = 1;
+                } else {
+                    boardForAPI[i] = -1;
+                }
+            }
+        }
+
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+    </script>
+{% endblock %}
+
+{% block content %}
+    <div class="text-center pt-5">
+        <p id="minutes"></p>:<p id="seconds"></p>
+    </div>
+    <!--body onmousemove="coordinate(event)"> 
+        X-coordinate 
+        <input type="text" id="X">
+    </body-->
+
+    <svg id="svg" viewBox="-7 -12 84 30" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <path id ="board" stroke="#401900" stroke-width="0.1" fill="none" d="M0,0h70v5h-70z" />
+        <path stroke="#401900" stroke-width="0.1" fill="none" d="M0,0v5 M5,0v5 M10,0v5 M15,0v5 M20,0v5 M25,0v5 M30,0v5 M35,0v5 M40,0v5 M45,0v5 M50,0v5 M55,0v5 M60,0v5 M65,0v5 M70,0v5"/>
+        <circle id="piece0" r="1.9" fill="#333333" filter="url(#outer-shadow)" filter="url(#inset-shadow)" cx="2.5" cy="2.5"/>
+        <circle id="piece1" r="1.9" fill="#333333" filter="url(#outer-shadow)" filter="url(#inset-shadow)" cx="7.5" cy="2.5"/>
+        <circle id="piece2" r="1.9" fill="#333333" filter="url(#outer-shadow)" filter="url(#inset-shadow)" cx="12.5" cy="2.5"/>
+        <circle id="piece3" r="1.9" fill="#333333" filter="url(#outer-shadow)" filter="url(#inset-shadow)" cx="17.5" cy="2.5"/>
+        <circle id="piece4" r="1.9" fill="#333333" filter="url(#outer-shadow)" filter="url(#inset-shadow)" cx="22.5" cy="2.5"/>
+
+        <circle id="piece5" r="1.9" fill="#FFFFFF" filter="url(#outer-shadow)" filter="url(#inset-shadow)" cx="47.5" cy="2.5"/>
+        <circle id="piece6" r="1.9" fill="#FFFFFF" filter="url(#outer-shadow)" filter="url(#inset-shadow)" cx="52.5" cy="2.5"/>
+        <circle id="piece7" r="1.9" fill="#FFFFFF" filter="url(#outer-shadow)" filter="url(#inset-shadow)" cx="57.5" cy="2.5"/>
+        <circle id="piece8" r="1.9" fill="#FFFFFF" filter="url(#outer-shadow)" filter="url(#inset-shadow)" cx="62.5" cy="2.5"/>
+        <circle id="piece9" r="1.9" fill="#FFFFFF" filter="url(#outer-shadow)" filter="url(#inset-shadow)" cx="67.5" cy="2.5"/>
+
+    </svg>
+    <div class="mx-auto text-center text-light rounded-9">
+        <a class="btn btn-warning m-1 mx-auto" style="font-size: 12px; font-weight: 300; border-radius: 25px; color: white;" href="#" onclick="reset();">RESTART</a>
+    </div>
+    <!-- Button trigger modal -->
+    <!-- button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+        Launch demo modal
+    </button -->
+    
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
