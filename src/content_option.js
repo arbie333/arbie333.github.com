@@ -12,7 +12,7 @@ const introdata = {
         third: "I develop mobile apps",
     },
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed at nisl euismod urna bibendum",
-    your_img_url: "https://images.unsplash.com/photo-1514790193030-c89d266d5a9d",
+    your_img_url: "profile.jpg",
 };
 
 const dataabout = {
@@ -20,19 +20,19 @@ const dataabout = {
     aboutme: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent quis dolor id ligula semper elementum feugiat pretium nulla. Nunc non commodo dolor. Nunc mollis dignissim facilisis. Morbi ut magna ultricies.",
 };
 const worktimeline = [{
-        jobtitle: "Work1",
-        where: "YAdfi",
-        date: "2020",
+        jobtitle: "Compiler Explorer",
+        where: "San Francisco, CA",
+        date: "May, 2023 — Aug, 2023",
     },
     {
-        jobtitle: "Designer of week",
-        where: "Jamalya",
-        date: "2019",
+        jobtitle: "Data Analyst",
+        where: "Taipei, Taiwan",
+        date: "Feb, 2022 — Aug, 2023",
     },
     {
-        jobtitle: "Designer of week",
-        where: "ALquds",
-        date: "2019",
+        jobtitle: "Data Analyst Intern",
+        where: "Taipei, Taiwan",
+        date: "Jul, 2018 — Sep , 2019",
     },
 ];
 
@@ -41,20 +41,20 @@ const skills = [{
         value: 90,
     },
     {
-        name: "Djano",
+        name: "Java",
+        value: 90,
+    },
+    {
+        name: "Machine Learning",
         value: 85,
     },
     {
-        name: "Javascript",
+        name: "Algorithm",
+        value: 85,
+    },
+    {
+        name: "Full-Stack",
         value: 80,
-    },
-    {
-        name: "React",
-        value: 60,
-    },
-    {
-        name: "Jquery",
-        value: 85,
     },
 ];
 
@@ -136,21 +136,21 @@ const dataportfolio = [{
 ];
 
 const contactConfig = {
-    YOUR_EMAIL: "name@domain.com",
-    YOUR_FONE: "(555)123-4567",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi vehicula eu nunc et sollicitudin. Cras pulvinar, nisi at imperdiet pharetra. ",
+    YOUR_EMAIL: "whsu10@dons.usfca.edu",
+    YOUR_FONE: "(628)488-2148",
+    description: "",
     // creat an emailjs.com account 
     // check out this tutorial https://www.emailjs.com/docs/examples/reactjs/
-    YOUR_SERVICE_ID: "service_id",
-    YOUR_TEMPLATE_ID: "template_id",
-    YOUR_USER_ID: "user_id",
+    YOUR_SERVICE_ID: "",
+    YOUR_TEMPLATE_ID: "",
+    YOUR_USER_ID: "",
 };
 
 const socialprofils = {
-    github: "https://github.com",
-    facebook: "https://facebook.com",
-    linkedin: "https://linkedin.com",
-    twitter: "https://twitter.com",
+    github: "https://github.com/arbie333",
+    facebook: "",
+    linkedin: "https://www.linkedin.com/in/arbie333/",
+    twitter: "",
 };
 export {
     meta,
