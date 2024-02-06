@@ -12,7 +12,7 @@ const introdata = {
         third: "I develop mobile apps",
     },
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed at nisl euismod urna bibendum",
-    your_img_url: "profile.jpg",
+    your_img_url: "https://raw.githubusercontent.com/arbie333/arbie333.github.io/main/src/profile.JPG",
 };
 
 const dataabout = {
