@@ -11,7 +11,7 @@ const introdata = {
         second: "I code cool websites",
         third: "I explore AI",
     },
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed at nisl euismod urna bibendum",
+    description: "A Software Engineer From Taiwan",
     your_img_url: "https://raw.githubusercontent.com/arbie333/arbie333.github.io/main/src/profile.JPG",
 };
 
