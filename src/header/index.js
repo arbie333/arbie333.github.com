@@ -56,7 +56,7 @@ const Headermain = () => {
             <a href={socialprofils.github}>Github</a>
             <a href={socialprofils.twitter}>Twitter</a>
             </div>
-            <p className="copyright m-0">copyright __ {logotext}</p>
+            <a className="copyright m-0" href="https://github.com/ubaimutl/react-portfolio/tree/master">copyright __ ubaimutl</a>
           </div>
         </div>
       </header>
