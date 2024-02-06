@@ -1,9 +1,0 @@
-DROP TABLE IF EXISTS login;
-
-CREATE TABLE login (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    user TEXT NOT NULL,
-    pswd TEXT NOT NULL
-);
-
-INSERT INTO login (user, pswd) VALUES ('xyz', 'XYZ123abc');
