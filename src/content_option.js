@@ -12,7 +12,7 @@ const introdata = {
         third: "I explore AI",
     },
     description: "A Software Engineer From Taiwan",
-    your_img_url: "https://raw.githubusercontent.com/arbie333/arbie333.github.io/main/src/profile.JPG",
+    your_img_url: "https://raw.githubusercontent.com/arbie333/arbie333.github.io/main/src/assets/images/IMG_0330.JPG",
 };
 
 const dataabout = {
